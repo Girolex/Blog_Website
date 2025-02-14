@@ -30,6 +30,7 @@ def about():
 def admin():
     return redirect(url_for("home"))
 
-#Runt the app if this file is executed
+#Run the app if this file is executed
 if __name__ == '__main__':
     app.run(debug = True)
+#testing for commit VS code 
