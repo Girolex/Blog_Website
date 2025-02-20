@@ -14,6 +14,11 @@ def home():
 def login():
     return render_template("login.html")
 
+# this leads you to the registration page
+@app.route ("/register")
+def regiter():
+    return render_template("Register.html",  methods = ["POST" , "GET"])
+
 #displays whatever you type in the URL
 @app.route("/<name>")
 def user(name):
