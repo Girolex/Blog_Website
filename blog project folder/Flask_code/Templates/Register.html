@@ -5,23 +5,50 @@
 
 {% block content %}  
 
-    <form style="max-width: 500px; margin: auto;"> 
+    <form method = 'Post' action ="{{url_for('register')}}" style="max-width: 500px; margin: auto;"> 
+       {{ form.csrf_token }}
       <div class = "row pt-5">
         <h1>Register Here</h1>
       </div>
         <div class="mb-3">
-            <label for="Name" class="form-label">Name:</label>
-            <input type="text" class="form-control" id="name" >
+            <label for="name" class="form-label">Name:</label>
+           {{form.name(class="form-control")}}
+            
+              <ul class = "errors">
+                {%for error in form.name.errors %}
+                  <li> {{error}}</li>
+                  {% endfor %}
+              </ul>
           </div>
 
           <div class="mb-3">
             <label for="Email" class="form-label">Email:</label>
-            <input type="email" class="form-control" id="Email" >
+            {{form.email(class="form-control")}}
+              <ul class = "errors">
+                {%for error in form.email.errors %}
+                  <li> {{error}}</li>
+                  {% endfor %}
+              </ul>
           </div>
 
           <div class="mb-3">
             <label for="password" class="form-label">Password:</label>
-            <input type="password" class="form-control" id="Password" >
+            {{form.password(class="form-control")}}
+              <ul class = "errors">
+                {%for error in form.password.errors %}
+                  <li> {{error}}</li>
+                  {% endfor %}
+              </ul>
+          
+          </div>
+          <div class="mb-3">
+            <label for="Confirm_password" class="form-label">Confirm Password:</label>
+           {{form.confirm_password(class="form-control")}}
+              <ul class = "errors">
+                {%for error in form.confirm_password.errors %}
+                  <li> {{error}}</li>
+                  {% endfor %}
+              </ul>
           </div>
 
         <div class ="d-flex justify-content-center mt-3"> 
@@ -29,7 +56,11 @@
         </div>
     </form>
 
-
+    <style>
+      .errors{
+        color: red;
+      }
+    </style>
 
 
 
