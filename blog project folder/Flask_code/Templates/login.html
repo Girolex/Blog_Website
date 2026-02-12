@@ -2,28 +2,30 @@
 {% block title %} Login Page {% endblock %}
 
 {%block content %} 
- <!-- action="/submit-form" this is supossed to go into form but I havent set it up yet -->
-<form style="max-width: 300px; margin: auto;"> 
-      <div class="row pt-5">
-            <h1> Login </h1>
-      </div>
-    <div class="form-floating mb-3">
-       
-            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" aria-label="Email address">
-            <label for="floatingInput">Email address</label>
-            </div>
-            <div class="form-floating">
-         <input type="password" class="form-control" id="floatingPassword" placeholder="Password" aria-label="Password">
-            <label for="floatingPassword">Password</label>
-            
-        
-      </div>
-      <div class ="d-flex justify-content-center mt-3"> 
-            <button type="submit" class="btn btn-lg  btn-login w-50 ">Submit</button>
-      </div> 
-      <div  class="form-floating mb-3">
-            <p><a class="link-opacity-50-hover" href="/register">Register here</a></p>
-      </div>
-</form>  
+<div class="container pt-5" style="max-width: 400px;">
+    <h2 class="mb-4 text-center">Login</h2>
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <div class="form-floating mb-3">
+            {{ form.email(class="form-control", placeholder="name@example.com") }}
+            <label>Email address</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            {{ form.password(class="form-control", placeholder="Password") }}
+            <label>Password</label>
+        </div>
+
+        <div class="d-flex justify-content-center mt-3">
+            <button type="submit" class="btn btn-lg btn-login w-50">Submit</button>
+        </div>
+
+        <div class="text-center mt-3">
+            <a class="link-opacity-50-hover" href="{{ url_for('register') }}">Register here</a>
+        </div>
+    </form>
+</div>
  
 {% endblock %}

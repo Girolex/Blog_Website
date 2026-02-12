@@ -5,8 +5,8 @@
 
 {% block content %}  
 
-    <form method = 'Post' action ="{{url_for('register')}}" style="max-width: 500px; margin: auto;"> 
-       {{ form.csrf_token }}
+    <form method = 'POST' action ="{{url_for('register')}}" style="max-width: 500px; margin: auto;"> 
+       {{ form.hidden_tag() }}
       <div class = "row pt-5">
         <h1>Register Here</h1>
       </div>
