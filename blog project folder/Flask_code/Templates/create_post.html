@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}New Post{% endblock %}
+
+{% block content %}
+
+
+
+<div class="container mt-4" style="max-width: 900px;">
+  <h2 class="mb-3">New Post</h2>
+
+  <form method="POST"  enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+
+    <div class="mb-3">
+      {{ form.title.label(class="form-label") }}
+      {{ form.title(class="form-control") }}
+    </div>
+
+    <div class="mb-3">
+      {{ form.body_markdown.label(class="form-label") }}
+      {{ form.body_markdown(class="form-control", rows="14") }}
+      <div class="form-text">Use Markdown: # headings, **bold**, lists, code blocks, images.</div>
+    </div>
+
+    <div class="form-check mb-3">
+      {{ form.is_featured(class="form-check-input") }}
+      {{ form.is_featured.label(class="form-check-label") }}
+    </div>
+
+        <div class="mb-3">
+    {{ form.thumbnail.label(class="form-label") }}
+    {{ form.thumbnail(class="form-control") }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Publish</button>
+  </form>
+</div>
+{% endblock %}

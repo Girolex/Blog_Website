@@ -40,6 +40,36 @@
             color: white !important;
         }
 
+              .tile-card {
+                border-radius: 14px;
+                overflow: hidden;
+                border: 1px solid rgba(0,0,0,0.08);
+                text-decoration: none;
+                display: block;
+              }
+
+              .tile-thumb {
+                width: 100%;
+                aspect-ratio: 1 / 1;      /* square tiles */
+                object-fit: cover;
+                display: block;
+                background: #f2f2f2;
+              }
+
+              .tile-footer {
+                padding: 10px 12px;
+                background: white;
+                border-top: 1px solid rgba(0,0,0,0.08);
+              }
+
+              .tile-title {
+                margin: 0;
+                font-size: 1rem;
+                font-weight: 600;
+                color: #111;
+              }
+
+
         
     </style> 
     </head>
@@ -62,10 +92,10 @@
 
                       </li>
                   <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="Alejo">User</a>
+                    <a class="nav-link" href="{{ url_for('blog_list') }}">Blog</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#">Post</a>
+                    <a class="nav-link active" aria-current="page" href="Alejo">User</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#">About</a>

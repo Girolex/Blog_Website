@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Blog{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+
+  <h2 class="mb-3">All Blog Posts</h2>
+
+  {% if current_user.is_authenticated and current_user.is_admin %}
+    <div class="mb-3">
+      <a class="btn btn-primary" href="{{ url_for('create_post') }}">+ New Post</a>
+    </div>
+  {% endif %}
+
+  <div class="row g-3">
+    {% for post in posts %}
+      <div class="col-12 col-sm-6 col-lg-4">
+        <a class="tile-card" href="{{ url_for('view_post', post_id=post.id) }}">
+          {% if post.thumbnail %}
+            <img class="tile-thumb"
+                 src="{{ url_for('static', filename='uploads/' + post.thumbnail) }}"
+                 alt="thumbnail">
+          {% else %}
+            <div class="tile-thumb"></div>
+          {% endif %}
+
+          <div class="tile-footer">
+            <p class="tile-title">{{ post.title }}</p>
+          </div>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}
