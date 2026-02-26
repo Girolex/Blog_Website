@@ -11,6 +11,7 @@ import os
 import uuid
 from werkzeug.utils import secure_filename
 from flask_wtf.file import FileField, FileAllowed
+from wtforms.validators import DataRequired, URL, Length
 
 
 
@@ -79,7 +80,10 @@ class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     title = db.Column(db.String(150), nullable=False)
-    body_markdown = db.Column(db.Text, nullable=False)
+    short_description = db.Column(db.String(300), nullable=False)
+    github_url = db.Column(db.String(300), nullable=False)
+
+    body_markdown = db.Column(db.Text, nullable=False, default="")
 
     thumbnail = db.Column(db.String(200), nullable=True)
     is_featured = db.Column(db.Boolean, default=False, nullable=False)
@@ -89,6 +93,14 @@ class Project(db.Model):
 
     author_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
+class ProjectForm(FlaskForm):
+    title = StringField("Title", [validators.DataRequired()])
+    short_description = TextAreaField("Short Description", [validators.DataRequired()])
+    github_url = StringField("GitHub URL", [validators.DataRequired()])
+    is_featured = BooleanField("Featured?")
+
+    thumbnail = FileField("Thumbnail", validators=[
+        FileAllowed(["jpg", "jpeg", "png", "webp"], "Images only!")])  
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -133,10 +145,7 @@ def blog_list():
     posts = Post.query.order_by(Post.created_at.desc()).all()
     return render_template("blog_list.html", posts=posts)
 
-@app.route("/projects")
-def projects_list():
-    projects = Project.query.order_by(Project.created_at.desc()).all()
-    return render_template("projects_list.html", projects=projects)
+
 
 
 # this is the login
@@ -203,18 +212,24 @@ def register():
 @login_required
 def create_post():
     admin_required()
-    thumb_filename = None
-    if form.thumbnail.data:
-        thumb_filename = save_image(form.thumbnail.data)
+
     form = PostForm()
+
     if form.validate_on_submit():
+        thumbnail_filename = None
+        file = request.files.get("thumbnail")
+
+        if file and file.filename:
+            thumbnail_filename = save_image(file)
+
         post = Post(
             title=form.title.data,
             body_markdown=form.body_markdown.data,
             is_featured=bool(form.is_featured.data),
-            thumbnail=thumb_filename,
+            thumbnail=thumbnail_filename,
             author_id=current_user.id
         )
+
         db.session.add(post)
         db.session.commit()
         flash("Post created!", "success")
@@ -242,8 +257,10 @@ def edit_post(post_id):
         post.title = form.title.data
         post.body_markdown = form.body_markdown.data
         post.is_featured = bool(form.is_featured.data)
-        if form.thumbnail.data:
-            post.thumbnail = save_image(form.thumbnail.data)
+        
+        file = request.files.get("thumbnail")
+        if file and file.filename:
+            post.thumbnail = save_image(file)
 
         db.session.commit()
         flash("Post updated!", "success")
@@ -257,6 +274,15 @@ def delete_post(post_id):
     admin_required()
 
     post = Post.query.get_or_404(post_id)
+
+    # --- delete thumbnail file from disk (if it exists) ---
+    if post.thumbnail:
+        thumbnail_path = os.path.join(
+            app.root_path, "static", "uploads", post.thumbnail
+        )
+        if os.path.exists(thumbnail_path):
+            os.remove(thumbnail_path)
+
     db.session.delete(post)
     db.session.commit()
 
@@ -264,11 +290,102 @@ def delete_post(post_id):
     return redirect(url_for("blog_list"))
 
 
+@app.route("/projects")
+def projects():
+    projects = Project.query.order_by(Project.created_at.desc()).all()
+    return render_template("projects.html", projects=projects)
+
+@app.route("/projects/new", methods=["GET", "POST"])
+@login_required
+def new_project():
+    if not current_user.is_admin:
+        abort(403)
+
+    form = ProjectForm()
+
+    if form.validate_on_submit():
+        thumbnail_filename = None
+        file = form.thumbnail.data
+
+        if file and hasattr(file, "filename") and file.filename:
+            thumbnail_filename = save_image(file)
+
+        project = Project(
+            title=form.title.data,
+            short_description=form.short_description.data,
+            github_url=form.github_url.data,
+            body_markdown="",
+            is_featured=form.is_featured.data,
+            thumbnail=thumbnail_filename,
+            author_id=current_user.id
+        )
+
+        db.session.add(project)
+        db.session.commit()
+        flash("Project created!", "success")
+        return redirect(url_for("projects"))
+
+    return render_template("project_form.html", form=form, heading="New Project")
+
+@app.route("/projects/<int:project_id>/edit", methods=["GET", "POST"])
+@login_required
+def edit_project(project_id):
+    if not current_user.is_admin:
+        abort(403)
+
+    project = Project.query.get_or_404(project_id)
+    form = ProjectForm(obj=project)
+
+    if form.validate_on_submit():
+        project.title = form.title.data
+        project.short_description = form.short_description.data
+        project.github_url = form.github_url.data
+        project.is_featured = form.is_featured.data
+
+        file = request.files.get("thumbnail")
+        if file and file.filename:
+            project.thumbnail = save_image(file)
+
+        db.session.commit()
+        flash("Project updated!", "success")
+        return redirect(url_for("projects"))
+
+    return render_template("project_form.html", form=form, heading="Edit Project")
+
+
+@app.route("/projects/<int:project_id>/delete", methods=["POST"])
+@login_required
+def delete_project(project_id):
+    if not current_user.is_admin:
+        abort(403)
+
+    project = Project.query.get_or_404(project_id)
+
+    # --- Delete thumbnail file from disk ---
+    if project.thumbnail:
+        thumbnail_path = os.path.join(
+            app.root_path,
+            "static",
+            "uploads",  # change this if your folder name is different
+            project.thumbnail
+        )
+
+        if os.path.exists(thumbnail_path):
+            os.remove(thumbnail_path)
+
+    db.session.delete(project)
+    db.session.commit()
+
+    flash("Project deleted.", "success")
+    return redirect(url_for("projects"))
+
+
+
 
 #displays about info
-@app.route("/about_page")
+@app.route("/about")
 def about():
-    return "The about Page"
+    return render_template("about.html")
 
 
 

@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}Projects{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Projects</h2>
+
+    {% if current_user.is_authenticated and current_user.is_admin %}
+      <a class="btn btn-primary" href="{{ url_for('new_project') }}">New Project</a>
+    {% endif %}
+  </div>
+
+  {% if projects|length == 0 %}
+    <p class="text-muted">No projects yet.</p>
+  {% else %}
+    <div class="row g-3">
+      {% for project in projects %}
+        <div class="col-12 col-sm-6 col-lg-4">
+
+          <div class="tile-card d-flex flex-column h-100">
+
+            {% if project.thumbnail %}
+              <img class="tile-thumb"
+                   src="{{ url_for('static', filename='uploads/' + project.thumbnail) }}"
+                   alt="thumbnail">
+            {% else %}
+              <div class="tile-thumb"></div>
+            {% endif %}
+
+            <div class="tile-footer d-flex flex-column flex-grow-1">
+
+              <p class="tile-title mb-1">{{ project.title }}</p>
+
+              <p class="text-muted small mb-3">
+                {{ project.short_description }}
+              </p>
+
+              <div class="mt-auto d-flex gap-2 flex-wrap">
+
+                <a class="btn btn-outline-dark btn-sm"
+                   href="{{ project.github_url }}"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                  View on GitHub
+                </a>
+
+                {% if current_user.is_authenticated and current_user.is_admin %}
+                  <a class="btn btn-outline-secondary btn-sm"
+                     href="{{ url_for('edit_project', project_id=project.id) }}">
+                    Edit
+                  </a>
+
+                  <form method="POST"
+                        action="{{ url_for('delete_project', project_id=project.id) }}"
+                        onsubmit="return confirm('Delete this project?');"
+                        style="display:inline;">
+                    <button type="submit" class="btn btn-outline-danger btn-sm">
+                      Delete
+                    </button>
+                  </form>
+                {% endif %}
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+</div>
+{% endblock %}

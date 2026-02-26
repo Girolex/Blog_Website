@@ -4,37 +4,97 @@
 {% block content %}
 <div class="container mt-4">
 
-  {% if featured_posts %}
-    <h2 class="mb-3">Featured</h2>
-    <div class="row">
-      {% for post in featured_posts %}
-        <div class="col-md-4 mb-3">
-          <div class="card h-100">
-            <div class="card-body">
-              <h5 class="card-title">
-                <a href="{{ url_for('view_post', post_id=post.id) }}">{{ post.title }}</a>
-              </h5>
-              <p class="card-text text-muted">{{ post.created_at.strftime("%Y-%m-%d") }}</p>
+  <!-- HERO -->
+  <div class="py-5">
+    <h1 class="fw-bold mb-2">Projects & Notes</h1>
+    <p class="text-muted mb-4" style="max-width: 65ch;">
+      A small collection of software projects and technical writeups I’m building while leveling up.
+    </p>
+  </div>
+
+  <!-- FEATURED PROJECTS -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="fw-bold mb-0">Featured Projects</h2>
+    <a href="{{ url_for('projects') }}" class="text-decoration-none">All projects →</a>
+  </div>
+
+  {% if featured_projects and featured_projects|length > 0 %}
+    <div class="row g-3 mb-5">
+      {% for project in featured_projects %}
+        <div class="col-12 col-sm-6 col-lg-4">
+
+          <div class="tile-card d-flex flex-column h-100">
+
+            {% if project.thumbnail %}
+              <img class="tile-thumb"
+                   src="{{ url_for('static', filename='uploads/' + project.thumbnail) }}"
+                   alt="thumbnail">
+            {% else %}
+              <div class="tile-thumb"></div>
+            {% endif %}
+
+            <div class="tile-footer d-flex flex-column flex-grow-1">
+
+              <p class="tile-title mb-1">{{ project.title }}</p>
+
+              <p class="text-muted small mb-3">
+                {{ project.short_description }}
+              </p>
+
+              <div class="mt-auto">
+                <a class="btn btn-outline-dark btn-sm"
+                   href="{{ project.github_url }}"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                  View on GitHub
+                </a>
+              </div>
+
             </div>
+
           </div>
+
         </div>
       {% endfor %}
     </div>
-    <hr class="my-4">
+  {% else %}
+    <p class="text-muted mb-5">No featured projects yet.</p>
   {% endif %}
 
-  <h2 class="mb-3">All Posts</h2>
-  <div class="list-group">
-    {% for post in all_posts %}
-      <a class="list-group-item list-group-item-action"
-         href="{{ url_for('view_post', post_id=post.id) }}">
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1">{{ post.title }}</h5>
-          <small class="text-muted">{{ post.created_at.strftime("%Y-%m-%d") }}</small>
-        </div>
-      </a>
-    {% endfor %}
+  <!-- FEATURED POSTS -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="fw-bold mb-0">Featured Posts</h2>
+    <a href="{{ url_for('blog_list') }}" class="text-decoration-none">All posts →</a>
   </div>
+
+  {% if featured_posts and featured_posts|length > 0 %}
+    <div class="row g-3">
+      {% for post in featured_posts %}
+        <div class="col-12 col-sm-6 col-lg-4">
+
+          <a class="tile-card d-flex flex-column h-100 text-decoration-none"
+             href="{{ url_for('view_post', post_id=post.id) }}">
+
+            {% if post.thumbnail %}
+              <img class="tile-thumb"
+                   src="{{ url_for('static', filename='uploads/' + post.thumbnail) }}"
+                   alt="thumbnail">
+            {% else %}
+              <div class="tile-thumb"></div>
+            {% endif %}
+
+            <div class="tile-footer">
+              <p class="tile-title">{{ post.title }}</p>
+            </div>
+
+          </a>
+
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-muted">No featured posts yet.</p>
+  {% endif %}
 
 </div>
 {% endblock %}

@@ -1,0 +1,327 @@
+/* =========================
+   NASA Clean Dark Theme
+========================= */
+
+:root {
+  --bg: #12192b;              /* deep space navy */
+  --panel: #111827;           /* card/nav background */
+  --border: rgba(255,255,255,0.08);
+  --text: #529e20;            /* soft white */
+  --muted:  #8fd3ff;           /* gray */
+  --accent: #2563eb;          /* NASA blue */
+}
+
+/* =========================
+   Base
+========================= */
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+}
+
+/* =========================
+   Navbar
+========================= */
+
+.navbar  {
+  background-color: var(--panel) !important;
+  border-bottom: 1px solid var(--border);
+}
+
+.navbar-nav .nav-link {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.navbar-nav .nav-link:hover {
+  color: var(--accent);
+}
+
+.navbar .navbar-brand{
+  color: var(--text) !important;
+}
+.navbar .navbar-brand:hover{
+  color: var(--accent) !important;
+}
+
+/* =========================
+   Links
+========================= */
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  opacity: 0.85;
+}
+
+.text-muted {
+  color: var(--muted) !important;
+}
+
+/* =========================
+   Tile Layout (Blog/Projects)
+========================= */
+
+.tile-card {
+  background-color: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  display: block;
+  transition: all 0.18s ease;
+}
+
+.tile-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.tile-thumb {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+  background: #1f2937;
+}
+
+.tile-footer {
+  padding: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.tile-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* =========================
+   Typography
+========================= */
+
+h1 {
+  font-weight: 700;
+  font-size: 2.25rem;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+p {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* =========================
+   Buttons
+========================= */
+
+.btn-outline-dark,
+.btn-outline-secondary,
+.btn-outline-primary {
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+
+.btn-outline-dark:hover,
+.btn-outline-secondary:hover,
+.btn-outline-primary:hover {
+  border-color: var(--accent) !important;
+  background-color: rgba(37, 99, 235, 0.1) !important;
+  color: var(--text) !important;
+}
+
+/* Submit button */
+
+.btn-login {
+  background-color: var(--accent) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 8px;
+  padding: 0.5rem 1.25rem;
+  font-weight: 500;
+}
+
+.btn-login:hover {
+  background-color: #1d4ed8 !important;
+}
+
+.btn-login:active,
+.btn-login:focus {
+  background-color: #1d4ed8 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* ===============================
+   Professional Footer
+================================ */
+
+.site-footer {
+  background-color: #0a0f1c;
+  color:  #8fd3ff;
+  padding: 40px 20px;
+  margin-top: 60px;
+  position: relative;
+
+  /* Subtle NASA glow line */
+  border-top: 1px solid rgba(74, 79, 82, 0.15);
+  box-shadow: 0 -10px 25px rgba(77, 184, 255, 0.12);
+}
+
+.footer-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.footer-section h4,
+.footer-section h5 {
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+.footer-section p {
+  margin: 4px 0;
+}
+
+.footer-section a {
+  color: #4db8ff;
+  text-decoration: none;
+}
+
+.footer-section a:hover {
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 30px;
+  padding-top: 15px;
+  border-top: 1px solid #1f2a44;
+  font-size: 0.85rem;
+  color: #8c9bb3;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* this pushes footer down  */
+.page-main {
+  flex: 1;
+  display: block;
+}
+
+.footer-icons {
+  display: flex;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.footer-icons a {
+  font-size: 1.4rem;
+  color: #4db8ff;
+  transition: all 0.25s ease;
+}
+
+.footer-icons a:hover {
+  color: #ffffff;
+  transform: translateY(-3px);
+}
+
+/* ===============================
+   About Page Styling
+================================ */
+
+/* Container refinement */
+.about-container {
+  max-width: 850px;
+  margin: 60px auto;
+  padding: 0 20px;
+}
+
+/* Main title */
+.about-container h1 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+
+/* Subtitle under h1 */
+.about-subtitle {
+  color: #8fd3ff;   /* your cyan */
+  font-size: 1.05rem;
+  letter-spacing: 0.4px;
+  margin-bottom: 25px;
+}
+
+/* Section headings */
+.about-container h2 {
+  margin-top: 35px;
+  margin-bottom: 12px;
+  font-size: 1.5rem;
+}
+
+/* Paragraph spacing */
+.about-container p {
+  margin-bottom: 16px;
+  line-height: 1.7;
+  color: #8fd3ff;
+}
+
+/* Clean divider */
+.about-divider {
+  border: 0;
+  height: 1px;
+  background: rgba(77, 184, 255, 0.18);
+  box-shadow: 0 0 16px rgba(77, 184, 255, 0.08);
+  margin: 30px 0;
+}
+
+/* Styled motivation list */
+.motivation-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.motivation-list li {
+  position: relative;
+  padding-left: 24px;
+  margin-bottom: 10px;
+  line-height: 1.6;
+  color: #8fd3ff;
+}
+
+.motivation-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.75em;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(52, 139, 64, 0.9);
+  box-shadow: 0 0 10px rgba(143, 211, 255, 0.35);
+  transform: translateY(-50%);
+}

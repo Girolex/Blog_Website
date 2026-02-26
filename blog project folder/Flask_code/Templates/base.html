@@ -2,141 +2,130 @@
 <html>
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
-    rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    rel="stylesheet"
     crossorigin="anonymous">
 
-    <title> {%block title %} {% endblock %}</title>
-   
-    <style>
-        
-        /*this is to style the login button with a specific color*/
-        .btn-login {
-            background-color: blue;
-            color: white;
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-        }
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 
-        .btn-login:hover {
-            background-color: darkblue;
-            color: white;
-        }
+    <title>{% block title %}{% endblock %}</title>
+</head>
 
-        .btn-login:active {
-            background-color: darkblue !important; 
-            color: white !important; 
-            box-shadow: none !important;
-            outline: none !important;
-        }
+<body>
+<div class="page-wrapper">
 
-        .btn-login:focus {
-            background-color: blue !important; 
-            color: white !important; 
-            box-shadow: none !important;
-            outline: none !important;
-        }
-        
-        .btn-login:hover {
-            background-color: darkblue !important;
-            color: white !important;
-        }
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">Home</a>
 
-              .tile-card {
-                border-radius: 14px;
-                overflow: hidden;
-                border: 1px solid rgba(0,0,0,0.08);
-                text-decoration: none;
-                display: block;
-              }
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-              .tile-thumb {
-                width: 100%;
-                aspect-ratio: 1 / 1;      /* square tiles */
-                object-fit: cover;
-                display: block;
-                background: #f2f2f2;
-              }
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('blog_list') }}">Blog</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('projects') }}">Projects</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('about') }}">About</a>
+            </li>
+          </ul>
 
-              .tile-footer {
-                padding: 10px 12px;
-                background: white;
-                border-top: 1px solid rgba(0,0,0,0.08);
-              }
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              {% if current_user.is_authenticated %}
+                <a class="nav-link text-primary fw-semibold"
+                   href="{{ url_for('logout') }}">Logout</a>
+              {% else %}
+                <a class="nav-link text-primary fw-semibold"
+                   href="{{ url_for('login') }}">Login</a>
+              {% endif %}
+            </li>
+          </ul>
+        </div>
+      </div>
+  </nav>
 
-              .tile-title {
-                margin: 0;
-                font-size: 1rem;
-                font-weight: 600;
-                color: #111;
-              }
+  <main class="page-main">
 
-
-        
-    </style> 
-    </head>
-    <body>
-        <h1> Blog Website </h1>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
-            <div class="container-fluid">
-              <a class="navbar-brand" href="/">Home</a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        {% if current_user.is_authenticated %}
-                            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
-                        {% else %}
-                            <a class="nav-link" href="{{ url_for('login') }}">Login</a>
-                        {% endif %}
-
-                      </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('blog_list') }}">Blog</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="Alejo">User</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
-                  </li>
-                </ul>
-              </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="container mt-3">
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show">
+              {{ message }}
+              <button type="button" class="btn-close"
+                      data-bs-dismiss="alert"></button>
             </div>
-          </nav>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
 
-         {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-              <div class="container mt-3">
-                {% for category, message in messages %}
-                  <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                  </div>
-                {% endfor %}
-              </div>
-            {% endif %}
-          {% endwith %}
+    {% block content %}
+    {% endblock %}
 
-        {%block content %} 
-        {% endblock %}
+  </main>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
-        crossorigin="anonymous"></script>
-       
-       <script>
-          window.addEventListener("DOMContentLoaded", function () {
-            setTimeout(function () {
-              var alerts = document.querySelectorAll(".alert");
-              alerts.forEach(function (alert) {
-                var bsAlert = new bootstrap.Alert(alert);
-                bsAlert.close();
-              });
-            }, 10000); // 10000ms = 10 seconds
-         });
-        </script>
+  <footer class="site-footer">
+    <div class="footer-container">
 
+      <div class="footer-section">
+        <h4>Alejandro Girón Molina</h4>
+        <p>Computer Science Student | Software Developer</p>
+        <p>Building systems, solving problems, shipping projects.</p>
+      </div>
 
-    </body>
+      <div class="footer-section">
+        <h5>Tech Stack</h5>
+        <p>Flask • SQLite • Python • HTML • CSS</p>
+      </div>
+
+      <div class="footer-section">
+        <h5>Connect</h5>
+        <div class="footer-icons">
+          <a href="https://github.com/Girolex" target="_blank" aria-label="GitHub">
+            <i class="fab fa-github"></i>
+          </a>
+
+          <a href="https://www.linkedin.com/in/alejandro-giron-580b22327/" target="_blank" aria-label="LinkedIn">
+            <i class="fab fa-linkedin"></i>
+          </a>
+
+          <a href="mailto:your@email.com" aria-label="Email">
+            <i class="fas fa-envelope"></i>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      © 2026 Alejandro Girón Molina. All Rights Reserved.
+    </div>
+  </footer>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+window.addEventListener("DOMContentLoaded", function () {
+  setTimeout(function () {
+    document.querySelectorAll(".alert").forEach(function (alert) {
+      new bootstrap.Alert(alert).close();
+    });
+  }, 10000);
+});
+</script>
+
+</body>
 </html>
