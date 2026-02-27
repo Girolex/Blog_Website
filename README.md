@@ -179,10 +179,8 @@ flask run
 
 ## Future Improvements
 
-- Add post deletion functionality
 - Implement a comment system
 - Improve UI/UX styling
-- Add pagination for blog posts
 - Add search functionality
 - Enhance admin dashboard features
 
