@@ -3,12 +3,12 @@
 ========================= */
 
 :root {
-  --bg: #12192b;              /* deep space navy */
-  --panel: #111827;           /* card/nav background */
+  --bg: #12192b;              
+  --panel: #111827;           
   --border: rgba(255,255,255,0.08);
-  --text: #529e20;            /* soft white */
-  --muted:  #8fd3ff;           /* gray */
-  --accent: #2563eb;          /* NASA blue */
+  --text: #529e20;            
+  --muted:  #8fd3ff;           
+  --accent: #2563eb;          
 }
 
 /* =========================
@@ -174,7 +174,7 @@ p {
   margin-top: 60px;
   position: relative;
 
-  /* Subtle NASA glow line */
+  /* Subtle  glow line */
   border-top: 1px solid rgba(74, 79, 82, 0.15);
   box-shadow: 0 -10px 25px rgba(77, 184, 255, 0.12);
 }

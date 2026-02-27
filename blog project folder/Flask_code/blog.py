@@ -8,6 +8,7 @@ from sqlalchemy.exc import IntegrityError
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 import markdown
 import os
+import secrets
 import uuid
 from werkzeug.utils import secure_filename
 from flask_wtf.file import FileField, FileAllowed
@@ -18,12 +19,28 @@ from wtforms.validators import DataRequired, URL, Length
 
 # create a flask app instace 
 app = Flask(__name__)
-#add the data base
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
-app.secret_key = "random_shite"
 
-UPLOAD_FOLDER = os.path.join(app.root_path, "static", "uploads")
-app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+#add the data base
+# --- Database: Railway Postgres in production, SQLite locally ---
+db_url = os.environ.get("DATABASE_URL")
+
+if db_url:
+    
+    db_url = db_url.replace("postgres://", "postgresql://", 1)
+    app.config["SQLALCHEMY_DATABASE_URI"] = db_url
+else:
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///blog.db"
+
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY") or secrets.token_hex(32)
+
+# Upload folder 
+app.config["UPLOAD_FOLDER"] = os.environ.get(
+    "UPLOAD_FOLDER",
+    os.path.join(app.root_path, "static", "uploads")
+)
+
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
 
@@ -278,7 +295,7 @@ def delete_post(post_id):
     # --- delete thumbnail file from disk (if it exists) ---
     if post.thumbnail:
         thumbnail_path = os.path.join(
-            app.root_path, "static", "uploads", post.thumbnail
+            app.config["UPLOAD_FOLDER"],post.thumbnail 
         )
         if os.path.exists(thumbnail_path):
             os.remove(thumbnail_path)
@@ -364,10 +381,7 @@ def delete_project(project_id):
     # --- Delete thumbnail file from disk ---
     if project.thumbnail:
         thumbnail_path = os.path.join(
-            app.root_path,
-            "static",
-            "uploads",  # change this if your folder name is different
-            project.thumbnail
+            app.config["UPLOAD_FOLDER"],project.thumbnail
         )
 
         if os.path.exists(thumbnail_path):
@@ -391,4 +405,4 @@ def about():
 
 #Run the app if this file is executed
 if __name__ == '__main__':
-    app.run(debug = True)
+    app.run()
