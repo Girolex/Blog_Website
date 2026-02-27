@@ -159,9 +159,15 @@ def home():
 
 @app.route("/blog")
 def blog_list():
-    posts = Post.query.order_by(Post.created_at.desc()).all()
-    return render_template("blog_list.html", posts=posts)
+    page = request.args.get("page", 1, type=int)
+    per_page = 3  # posts per page
 
+    pagination = (Post.query.order_by(Post.created_at.desc()).paginate(page=page, per_page=per_page, error_out=False)
+    )
+
+    posts = pagination.items
+
+    return render_template("blog_list.html",posts=posts,pagination=pagination)
 
 
 
@@ -309,8 +315,15 @@ def delete_post(post_id):
 
 @app.route("/projects")
 def projects():
-    projects = Project.query.order_by(Project.created_at.desc()).all()
-    return render_template("projects.html", projects=projects)
+    page = request.args.get("page", 1, type=int)
+    per_page = 3
+
+    pagination = (Project.query.order_by(Project.id.desc())
+               .paginate(page=page, per_page=per_page, error_out=False))
+
+    projects = pagination.items
+
+    return render_template("projects.html",projects=projects,pagination=pagination)
 
 @app.route("/projects/new", methods=["GET", "POST"])
 @login_required
