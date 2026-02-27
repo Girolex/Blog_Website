@@ -95,7 +95,7 @@ This layered structure keeps business logic organized and supports portability b
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/blog-project.git
+git clone https://github.com/Girolex/Blog_Website.git
 cd blog-project
 ```
 
