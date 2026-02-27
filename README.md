@@ -6,6 +6,20 @@ A production-oriented blog platform built with Flask and PostgreSQL that showcas
 > **Tech:** Flask · SQLAlchemy · PostgreSQL · Railway · Flask-Login
 
 ---
+
+## Table of Contents
+
+- [Backend Engineering Highlights](#-backend-engineering-highlights)
+- [Architecture Overview](#-architecture-overview)
+- [Database Design](#-database-design)
+- [Security Practices](#-security-practices)
+- [Tech Stack](#-tech-stack)
+- [Local Development Setup](#-local-development-setup)
+- [What This Project Demonstrates](#-what-this-project-demonstrates)
+- [Future Improvements](#-future-improvements)
+- [Project Purpose](#-project-purpose)
+
+---
 ## Backend Engineering HIghlights
 
 - Implemented session-based authentication using Flask-Login
@@ -188,7 +202,7 @@ flask run
 
 ---
 
-## 🎯 Project Purpose
+## Project Purpose
 
 This project was built to strengthen backend engineering fundamentals and simulate production-oriented design patterns including authentication, relational modeling, and cloud-based deployment workflows.
   
