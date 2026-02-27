@@ -404,25 +404,29 @@ textarea.form-control {
   border-color: #22c55e;
 }
 
-/* File input */
+/* File input base */
 .form-control[type="file"] {
-  background-color: #0f172a;
-  color: #e2e8f0;
+  background-color: #0f172a !important;
+  color: #e2e8f0 !important;
+  border: 1px solid #334155 !important;
 }
 
+/* File button */
 .form-control[type="file"]::file-selector-button {
-  background: #1e293b;
-  color: #e2e8f0;
-  border: 1px solid #334155;
+  background-color: #1e293b !important;
+  color: #e2e8f0 !important;
+  border: 1px solid #334155 !important;
   border-radius: 8px;
-  padding: 6px 10px;
+  padding: 6px 12px;
   margin-right: 10px;
+  transition: all 0.2s ease;
+  cursor: pointer;
 }
 
+/* Hover state */
 .form-control[type="file"]::file-selector-button:hover {
-  background-color: #22c55e;
-  color: #0f172a;
-  border-color: #22c55e;
-  
+  background-color: #22c55e !important;
+  color: #0f172a !important;
+  border-color: #22c55e !important;
 }
 
