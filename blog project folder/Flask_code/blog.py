@@ -160,7 +160,7 @@ def home():
 @app.route("/blog")
 def blog_list():
     page = request.args.get("page", 1, type=int)
-    per_page = 3  # posts per page
+    per_page = 12  # posts per page
 
     pagination = (Post.query.order_by(Post.created_at.desc()).paginate(page=page, per_page=per_page, error_out=False)
     )
@@ -316,7 +316,7 @@ def delete_post(post_id):
 @app.route("/projects")
 def projects():
     page = request.args.get("page", 1, type=int)
-    per_page = 3
+    per_page = 12
 
     pagination = (Project.query.order_by(Project.id.desc())
                .paginate(page=page, per_page=per_page, error_out=False))
