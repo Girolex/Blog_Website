@@ -57,4 +57,104 @@ This layered structure keeps business logic organized and supports portability b
 - One-to-many relationship between `User` and `Post`
 - Foreign key constraints enforce referential integrity
 - ORM relationships simplify querying associated posts by author
+
+---
+
+## Security Practices
+
+- Passwords are hashed before storage using Werkzeug (`generate_password_hash`)
+- No plaintext passwords are stored in the database
+- CSRF protection enforced on form submissions via Flask-WTF
+- Privileged actions (create/edit posts) are restricted to authenticated users
+- Secrets (e.g., `SECRET_KEY`, `DATABASE_URL`) are managed via environment variables
+- Separate configurations for development (SQLite) and production (PostgreSQL)
+
+---
+
+## Tech Stack
+
+**Backend**
+- Python
+- Flask
+- SQLAlchemy
+- Flask-Login
+- Flask-WTF
+- Werkzeug
+
+**Database**
+- PostgreSQL (Production)
+- SQLite (Development)
+
+**Deployment**
+- Railway (Cloud hosting)
+
+---
+
+## Local Development Setup
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/yourusername/blog-project.git
+cd blog-project
+```
+
+### 2. Create a virtual environment
+
+```bash
+python -m venv venv
+```
+
+Activate the environment:
+
+**Mac/Linux**
+```bash
+source venv/bin/activate
+```
+
+**Windows**
+```bash
+venv\Scripts\activate
+```
+
+### 3. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Configure environment variables
+
+Create a `.env` file in the project root:
+
+```env
+SECRET_KEY=your_secret_key
+DATABASE_URL=sqlite:///blog.db
+```
+
+For production (example):
+
+```env
+DATABASE_URL=postgresql://username:password@host:port/dbname
+```
+
+### 5. Initialize the database
+
+```bash
+flask shell
+```
+
+Inside the Flask shell:
+
+```python
+from app import db
+db.create_all()
+exit()
+```
+
+### 6. Run the application
+
+```bash
+flask run
+```
   
