@@ -412,7 +412,7 @@ textarea.form-control {
 
 .form-control[type="file"]::file-selector-button {
   background: #1e293b;
-  color: #86efac;
+  color: #e2e8f0;
   border: 1px solid #334155;
   border-radius: 8px;
   padding: 6px 10px;
@@ -420,6 +420,9 @@ textarea.form-control {
 }
 
 .form-control[type="file"]::file-selector-button:hover {
-  background: #334155;
+  background-color: #22c55e;
+  color: #0f172a;
+  border-color: #22c55e;
+  
 }
 
