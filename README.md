@@ -30,4 +30,31 @@ A production-oriented blog platform built with Flask and PostgreSQL that showcas
 - **Storage layer:** thumbnail uploads saved to persistent storage; thumbnails only update when a new file is provided
 
 This layered structure keeps business logic organized and supports portability between local SQLite development and production PostgreSQL.
+
+---
+
+## Database Design
+
+### User Model
+
+- `id` (Primary Key)
+- `name`
+- `email` (Unique)
+- `password_hash`
+
+### Post Model
+
+- `id` (Primary Key)
+- `title`
+- `body` (Markdown content)
+- `thumbnail_filename`
+- `is_featured` (Boolean)
+- `author_id` (Foreign Key → User.id)
+- `timestamp`
+
+### Relationships
+
+- One-to-many relationship between `User` and `Post`
+- Foreign key constraints enforce referential integrity
+- ORM relationships simplify querying associated posts by author
   
