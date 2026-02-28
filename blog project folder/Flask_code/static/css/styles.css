@@ -14,12 +14,17 @@
 /* =========================
    Base
 ========================= */
+h1 {
+  color: #22c55e;  /
+}
+
 
 body {
   background-color: var(--bg);
-  color: var(--text);
+  color: #86efac;
   font-family: 'Inter', sans-serif;
 }
+
 
 /* =========================
    Navbar
